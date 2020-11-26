@@ -1,7 +1,10 @@
-package main // 내가 작성할 패키지의 이름
+package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func main() {
-	fmt.Println("hello world")
+	fmt.Println(math.Abs(-3))
 }

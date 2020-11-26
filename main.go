@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
-	"math"
 )
 
+func repeatMe(words ...string) {
+	fmt.Println(words)
+}
+
 func main() {
-	fmt.Println(math.Abs(-3))
+	repeatMe("I", "My", "Me", "Mine")
 }

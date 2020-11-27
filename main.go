@@ -2,14 +2,9 @@ package main
 
 import "fmt"
 
-func amITen(age int) bool {
-	switch koreanAge := age + 2; koreanAge {
-	case 10:
-		return true
-	}
-	return false
-}
-
 func main() {
-	fmt.Println(amITen(16))
+	a := 5
+	b := &a // b는 포인터다
+	fmt.Println(b)
+	fmt.Println(*b) // 역참조
 }

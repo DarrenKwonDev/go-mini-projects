@@ -10,6 +10,10 @@ go run main.go
 ```bash
 go version
 ```
+- current go path
+```go
+fmt.Println(os.Getenv("GOPATH"))
+```
 
 ## std lib and framewok
 
@@ -18,6 +22,10 @@ go version
 [gin-gonic](https://gin-gonic.com/) gin 문서도 있고 공부도 시켜준다!  
 [echo](https://github.com/labstack/echo)  
 
+## useful blog post  
+
+[유연하고 테스트 가능한 Go 코드 작성하기](https://medium.com/daangn/how-to-write-a-testable-golang-code-4c0e67612bb8)  
+[errgroup으로 goroutine 10배 잘 활용하기](https://devjin-blog.com/golang-errgroup-goroutine/)  
 ## good website  
 
 [awesome-go](https://awesome-go.com/#web-frameworks)  

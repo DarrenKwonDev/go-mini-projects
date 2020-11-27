@@ -20,7 +20,8 @@ go version
 
 ## good website  
 
-[awesome-go](https://awesome-go.com/#web-frameworks)
+[awesome-go](https://awesome-go.com/#web-frameworks)  
+[go in vscode](https://code.visualstudio.com/docs/languages/go)  
 
 ## go lectures
 

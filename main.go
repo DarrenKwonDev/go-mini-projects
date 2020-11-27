@@ -2,9 +2,18 @@ package main
 
 import "fmt"
 
+type person struct {
+	name    string
+	age     int
+	favFood []string
+}
+
 func main() {
-	a := 5
-	b := &a // b는 포인터다
-	fmt.Println(b)
-	fmt.Println(*b) // 역참조
+	me := map[string]string{"name": "darren", "job": "entrepreneur"}
+	fmt.Println(me)
+
+	yourFav := []string{"cheeze", "wine"}
+	you := person{name: "mary", age: 18, favFood: yourFav}
+	fmt.Println(you)
+	fmt.Println(you.name)
 }

@@ -26,6 +26,7 @@ fmt.Println(os.Getenv("GOPATH"))
 
 [유연하고 테스트 가능한 Go 코드 작성하기](https://medium.com/daangn/how-to-write-a-testable-golang-code-4c0e67612bb8)  
 [errgroup으로 goroutine 10배 잘 활용하기](https://devjin-blog.com/golang-errgroup-goroutine/)  
+[rest-api-with-golang-using-gin-and-gorm](https://blog.logrocket.com/how-to-build-a-rest-api-with-golang-using-gin-and-gorm/)
 ## good website  
 
 [awesome-go](https://awesome-go.com/#web-frameworks)  

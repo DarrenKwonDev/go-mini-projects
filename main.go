@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/DarrenKwonDev/learnGo/accounts"
 )
 
 func main() {
-	fmt.Println("hello")
+	account := accounts.NewAccount("darrenkwon")
+	fmt.Println(account)
 }

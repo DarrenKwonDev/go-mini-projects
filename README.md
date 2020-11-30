@@ -10,9 +10,9 @@ go run main.go
 ```bash
 go version
 ```
-- current go path
-```go
-fmt.Println(os.Getenv("GOPATH"))
+- check go env
+```bash
+go env
 ```
 
 ## std lib and framewok
@@ -34,6 +34,7 @@ fmt.Println(os.Getenv("GOPATH"))
 
 ## go lectures
 
+[한 눈에 끝내는 고랭 기초](https://edu.goorm.io/lecture/2010/%25ED%2595%259C-%25EB%2588%2588%25EC%2597%2590-%25EB%2581%259D%25EB%2582%25B4%25EB%258A%2594-%25EA%25B3%25A0%25EB%259E%25AD-%25EA%25B8%25B0%25EC%25B4%2588)  
 [An Introducing to programming in go 한국어 번역](http://codingnuri.com/golang-book/)  
 [Go 101](https://go101.org/article/101.html)  
 [예제로 공부하는 Go 언어](https://joinc.co.kr/w/GoLang/example/)  

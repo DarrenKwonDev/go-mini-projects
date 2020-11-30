@@ -7,6 +7,13 @@ import (
 )
 
 func main() {
-	account := accounts.NewAccount("darrenkwon")
+	account := accounts.NewAccount("darren")
+	account.Deposit(10)
+	fmt.Println(account.Balance())
+	account.NewOwner("lee")
 	fmt.Println(account)
+	// err := account.Withraw(20)
+	// if err != nil {
+	// 	log.Fatalln(err)
+	// }
 }

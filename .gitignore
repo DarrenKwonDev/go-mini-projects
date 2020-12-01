@@ -1,7 +1,7 @@
 node_modules
 node_modules/
 package-lock.json
-tep
-tep/
+tmp
+tmp/
 urlChecker/tmp
 urlChecker/tmp/

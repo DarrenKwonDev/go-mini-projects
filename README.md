@@ -1,4 +1,4 @@
-# learning-go
+# go-mini-projects
 
 first time to learning "GO" 
 

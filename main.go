@@ -1,14 +1,22 @@
 package main
 
-import (
-	"fmt"
-	"unsafe"
-)
+import "fmt"
+
+func addEvery(num ...int) int {
+	var result int
+
+	// num은 슬라이스입니다
+	for _, val := range num {
+		result += val
+	}
+
+	return result
+}
 
 func main() {
-	var num int = 10
-	fmt.Println(unsafe.Sizeof(num))
-	var change float32 = float32(num)
-	fmt.Println(change)
-	fmt.Println(unsafe.Sizeof(change))
+	num1, num2, num3, num4, num5 := 1, 2, 3, 4, 5
+	nums := []int{10, 20, 30, 40}
+
+	fmt.Println(addEvery(num1, num2, num3, num4, num5)) // 15
+	fmt.Println(addEvery(nums...))
 }

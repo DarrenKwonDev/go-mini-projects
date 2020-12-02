@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -13,21 +14,25 @@ type extreactedJob struct {
 	id       string
 	location string
 	title    string
-	salary   string
 	summary  string
 }
 
 var baseURL string = "https://kr.indeed.com/jobs?q=python&limit=50" // 이후 limit=50&start=50, 100, 150 꼴로 올라감
 
 func main() {
+	var jobs []extreactedJob
 	totalPages := getPages() - 1 // 1부터 '다음'까지이므로 찾아볼 페이지는 하나 빼야함
 
 	for i := 0; i < totalPages; i++ {
-		getPage(i)
+		extractedJobs := getPage(i)
+		jobs = append(jobs, extractedJobs...)
 	}
+	fmt.Println(jobs)
 }
 
-func getPage(page int) {
+func getPage(page int) []extreactedJob {
+	var jobs []extreactedJob
+
 	pageURL := baseURL + "&start=" + strconv.Itoa(page*50) // strconv.Itoa는 interger to ask 약자. int -> str 형변환
 	fmt.Println("Requesting : " + pageURL)
 
@@ -41,20 +46,35 @@ func getPage(page int) {
 
 	searchCards := doc.Find("div.jobsearch-SerpJobCard")
 	searchCards.Each(func(i int, card *goquery.Selection) {
-		// Attr는 가져온 dom의 속성을 반환함
-		id, _ := card.Attr("data-jk")
-		fmt.Println(id)
-		title := card.Find("h2.title>a").Text()
-		location := card.Find(".sjcl>span.location").Text()
-
-		fmt.Println(title)
-		fmt.Println(location)
-
+		job := extractJob(card)
+		jobs = append(jobs, job)
 	})
 
+	return jobs
+}
+
+func extractJob(card *goquery.Selection) extreactedJob {
+	// Attr는 가져온 dom의 속성을 반환함
+	id, _ := card.Attr("data-jk")
+	title := cleanString(card.Find("h2.title>a").Text())
+	location := cleanString(card.Find(".sjcl>span.location").Text())
+	summary := cleanString(card.Find(".summary").Text())
+
+	// fmt.Println(id)
+	// fmt.Println(title)
+	// fmt.Println(location)
+	// fmt.Println(summary)
+	return extreactedJob{id, title, location, summary}
+}
+
+func cleanString(str string) string {
+	// func Join(a []string, sep string) string: 문자열 슬라이스에 저장된 문자열을 모두 연결
+	// strings.Fields 함수는 공백을 기준으로 문자열을 쪼개어 문자열 슬라이스로 저장합니다.
+	return strings.Join(strings.Fields(strings.TrimSpace(str)), " ")
 }
 
 func getPages() int {
+
 	pages := 0
 	res, err := http.Get(baseURL)
 

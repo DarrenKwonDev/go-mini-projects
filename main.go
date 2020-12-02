@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
-	fmt.Println("go another file")
+	arr := []string{"hello", "world", "and", "code"}
+	str := "     he  ll    "
+
+	fmt.Println(strings.Trim(str, "l"))
+	fmt.Println(strings.TrimSpace(str))
+	fmt.Println(strings.Join(arr, "|"))
 }

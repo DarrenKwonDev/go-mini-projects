@@ -1,7 +1,11 @@
 # go-mini-projects
 
-first time to learning "GO" 
+## project
+- [x] indeed job scrapper  
+- [x] urlchecker
 
+
+## go command  
 - run go  
 ```bash
 go run main.go

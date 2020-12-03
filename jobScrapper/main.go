@@ -25,11 +25,20 @@ func main() {
 	var jobs []extreactedJob
 	totalPages := getPages() - 1 // 1부터 '다음'까지이므로 찾아볼 페이지는 하나 빼야함
 
+	mainC := make(chan []extreactedJob)
+
 	// 전체 페이지를 돌면서 jobs를 슬라이스로 받아옴
 	for i := 0; i < totalPages; i++ {
-		extractedJobs := getPage(i) // 해당 페이지의 job을 struct slice로 만들어 반환함
+		//TODO: 각 페이지 별로 고루틴을 돌리자
+		go getPage(i, mainC) // 해당 페이지의 job을 struct slice로 만들어 반환함
+	}
+
+	// 반환한 채널 합치기
+	for i := 0; i < totalPages; i++ {
+		extractedJobs := <-mainC
 		jobs = append(jobs, extractedJobs...)
 	}
+
 	writeJobs(jobs)
 	fmt.Println("Done", len(jobs), "line")
 }
@@ -40,6 +49,9 @@ func writeJobs(jobs []extreactedJob) {
 
 	w := csv.NewWriter(file)
 	// Write any buffered data to the underlying writer (standard output).
+
+	// flsuh와 close의 차이가 무엇이냐? https://stackoverflow.com/a/49166489
+	// Closing does cause a flush. When you call Flush and then Close, the stream is flushed twice
 	defer w.Flush()
 
 	headers := []string{"ID", "Location", "Title", "Summary"}
@@ -51,11 +63,13 @@ func writeJobs(jobs []extreactedJob) {
 		jwErr := w.Write(jobSlice)
 		checkErr(jwErr)
 	}
-
 }
 
-func getPage(page int) []extreactedJob {
+func getPage(page int, mainC chan<- []extreactedJob) {
 	var jobs []extreactedJob
+
+	// 채널 생성
+	c := make(chan extreactedJob)
 
 	pageURL := baseURL + "&start=" + strconv.Itoa(page*50) // strconv.Itoa는 interger to ask 약자. int -> str 형변환
 	fmt.Println("Requesting : " + pageURL)
@@ -70,21 +84,26 @@ func getPage(page int) []extreactedJob {
 
 	searchCards := doc.Find("div.jobsearch-SerpJobCard")
 	searchCards.Each(func(i int, card *goquery.Selection) {
-		job := extractJob(card)
-		jobs = append(jobs, job)
+		//TODO: card에서 정보 추출하는 과정 고루틴
+		go extractJob(card, c)
 	})
 
-	return jobs
+	for i := 0; i < searchCards.Length(); i++ {
+		job := <-c
+		jobs = append(jobs, job)
+	}
+
+	mainC <- jobs
 }
 
-func extractJob(card *goquery.Selection) extreactedJob {
+func extractJob(card *goquery.Selection, c chan<- extreactedJob) {
 	// Attr는 가져온 dom의 속성을 반환함
 	id, _ := card.Attr("data-jk")
 	location := cleanString(card.Find(".sjcl>span.location").Text())
 	title := cleanString(card.Find("h2.title>a").Text())
 	summary := cleanString(card.Find(".summary").Text())
 
-	return extreactedJob{id, location, title, summary}
+	c <- extreactedJob{id, location, title, summary}
 }
 
 func cleanString(str string) string {

@@ -1,7 +1,26 @@
 package main
 
-import "github.com/DarrenKwonDev/learnGo/scrapper"
+import (
+	"net/http"
+
+	"github.com/labstack/echo"
+)
+
+// Handler
+func handleHome(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
+}
 
 func main() {
-	scrapper.Scrape("python")
+	// Echo instance
+	e := echo.New()
+
+	// Routes
+	e.GET("/", handleHome)
+
+	// Start server
+	e.Logger.Fatal(e.Start(":3000"))
+
 }
+
+// scrapper.Scrape("python")

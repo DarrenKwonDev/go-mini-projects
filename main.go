@@ -1,15 +1,7 @@
 package main
 
-import (
-	"fmt"
-	"strings"
-)
+import "github.com/DarrenKwonDev/learnGo/scrapper"
 
 func main() {
-	arr := []string{"hello", "world", "and", "code"}
-	str := "     he  ll    "
-
-	fmt.Println(strings.Trim(str, "l"))
-	fmt.Println(strings.TrimSpace(str))
-	fmt.Println(strings.Join(arr, "|"))
+	scrapper.Scrape("python")
 }

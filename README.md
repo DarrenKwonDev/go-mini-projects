@@ -39,6 +39,8 @@ go env
 [rest-api-with-golang-using-gin-and-gorm](https://blog.logrocket.com/how-to-build-a-rest-api-with-golang-using-gin-and-gorm/)
 [Go와 함께하는 전화망 서비스 구축 1편](https://d2.naver.com/helloworld/5827706)  
 [Go와 함께하는 전화망 서비스 구축 2편](https://d2.naver.com/helloworld/0814313)  
+[Go 전반적인 이야기와 웹 프레임워크 선택](https://kimtaekju-study.tistory.com/203)  
+
 ## good website  
 
 [gobyexample](https://gobyexample.com/)  

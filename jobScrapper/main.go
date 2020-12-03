@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 
@@ -23,11 +25,33 @@ func main() {
 	var jobs []extreactedJob
 	totalPages := getPages() - 1 // 1부터 '다음'까지이므로 찾아볼 페이지는 하나 빼야함
 
+	// 전체 페이지를 돌면서 jobs를 슬라이스로 받아옴
 	for i := 0; i < totalPages; i++ {
-		extractedJobs := getPage(i)
+		extractedJobs := getPage(i) // 해당 페이지의 job을 struct slice로 만들어 반환함
 		jobs = append(jobs, extractedJobs...)
 	}
-	fmt.Println(jobs)
+	writeJobs(jobs)
+	fmt.Println("Done", len(jobs), "line")
+}
+
+func writeJobs(jobs []extreactedJob) {
+	file, err := os.Create("jobs.csv")
+	checkErr(err)
+
+	w := csv.NewWriter(file)
+	// Write any buffered data to the underlying writer (standard output).
+	defer w.Flush()
+
+	headers := []string{"ID", "Location", "Title", "Summary"}
+	wErr := w.Write(headers)
+	checkErr(wErr)
+
+	for _, job := range jobs {
+		jobSlice := []string{"https://kr.indeed.com/viewjob?jk=" + job.id, job.location, job.title, job.summary}
+		jwErr := w.Write(jobSlice)
+		checkErr(jwErr)
+	}
+
 }
 
 func getPage(page int) []extreactedJob {
@@ -56,15 +80,11 @@ func getPage(page int) []extreactedJob {
 func extractJob(card *goquery.Selection) extreactedJob {
 	// Attr는 가져온 dom의 속성을 반환함
 	id, _ := card.Attr("data-jk")
-	title := cleanString(card.Find("h2.title>a").Text())
 	location := cleanString(card.Find(".sjcl>span.location").Text())
+	title := cleanString(card.Find("h2.title>a").Text())
 	summary := cleanString(card.Find(".summary").Text())
 
-	// fmt.Println(id)
-	// fmt.Println(title)
-	// fmt.Println(location)
-	// fmt.Println(summary)
-	return extreactedJob{id, title, location, summary}
+	return extreactedJob{id, location, title, summary}
 }
 
 func cleanString(str string) string {

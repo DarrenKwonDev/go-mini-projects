@@ -24,12 +24,12 @@ go env
 
 ## info  
 
-* Go는 OOP 기반 언어지만 class와 contructor가 없어 구조체(struct)와 struct factory를 이용해야 한다.
+- Go는 OOP 기반 언어지만 class와 contructor가 없어 구조체(struct)와 struct factory를 이용해야 한다.
 
-* struct는 value type이다. 
+- struct는 value type이다. 
 따라서 struct factory는 포인터를 반환하여 객체 복사가 이루어지지 않는 것이 좋다
 
-* map, slice는 reference type이다. 
+- map, slice는 reference type이다. 
 초기화하지 않으면 기본값으로 자동 초기화되지 않고 nil이 된다.
 
 ## useful blog post  
@@ -43,6 +43,7 @@ go env
 
 ## good website  
 
+[effective go(이펙티브 고의 한국어 번역)](https://gosudaweb.gitbooks.io/effective-go-in-korean/content/)  
 [gobyexample](https://gobyexample.com/)  
 [awesome-go](https://awesome-go.com/#web-frameworks)  
 [go in vscode](https://code.visualstudio.com/docs/languages/go)  

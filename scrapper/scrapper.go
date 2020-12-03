@@ -100,14 +100,15 @@ func getPage(page int, url string, mainC chan<- []extreactedJob) {
 func extractJob(card *goquery.Selection, c chan<- extreactedJob) {
 	// Attr는 가져온 dom의 속성을 반환함
 	id, _ := card.Attr("data-jk")
-	location := cleanString(card.Find(".sjcl>span.location").Text())
-	title := cleanString(card.Find("h2.title>a").Text())
-	summary := cleanString(card.Find(".summary").Text())
+	location := CleanString(card.Find(".sjcl>span.location").Text())
+	title := CleanString(card.Find("h2.title>a").Text())
+	summary := CleanString(card.Find(".summary").Text())
 
 	c <- extreactedJob{id, location, title, summary}
 }
 
-func cleanString(str string) string {
+// CleanString clean
+func CleanString(str string) string {
 	// func Join(a []string, sep string) string: 문자열 슬라이스에 저장된 문자열을 모두 연결
 	// strings.Fields 함수는 공백을 기준으로 문자열을 쪼개어 문자열 슬라이스로 저장합니다.
 	return strings.Join(strings.Fields(strings.TrimSpace(str)), " ")

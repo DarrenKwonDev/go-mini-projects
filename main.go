@@ -1,14 +1,28 @@
 package main
 
 import (
-	"net/http"
+	"os"
+	"strings"
 
+	"github.com/DarrenKwonDev/learnGo/scrapper"
 	"github.com/labstack/echo"
 )
 
 // Handler
 func handleHome(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
+	return c.File("home.html")
+}
+
+const fileName = "jobs.csv"
+
+func handleScrape(c echo.Context) error {
+
+	term := strings.ToLower(scrapper.CleanString(c.FormValue("term")))
+	scrapper.Scrape(term)
+
+	defer os.Remove(fileName)
+	// Attachment(뭘 줄 것인가, 무슨 이름으로 다운로드?)
+	return c.Attachment(fileName, fileName)
 }
 
 func main() {
@@ -18,9 +32,8 @@ func main() {
 	// Routes
 	e.GET("/", handleHome)
 
+	e.POST("/scrape", handleScrape)
+
 	// Start server
 	e.Logger.Fatal(e.Start(":3000"))
-
 }
-
-// scrapper.Scrape("python")
